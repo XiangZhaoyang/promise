@@ -8,6 +8,7 @@ var PromiseN = (function() {
     var resolve = function(value) {
         status = fulfilled;
         val = value;
+        // console.log(status, '  ', val);
     };
     var reject = function() {};
 
@@ -27,14 +28,15 @@ var PromiseN = (function() {
         //     onRejected();
         // }
         // console.log(status);
-        setTimeout(function() {
+        var timer = setInterval(function() {
             if(status === fulfilled) {
                 onFulfilled(val);
+                // console.log(val, ' ', status);
+                clearInterval(timer);
             } else if (status === rejected) {
                 onRejected();
             }
-            console.log(status);
-        }, 0);
+        }, 20);
     };
 
     PromiseN.prototype.catch = function() {};
@@ -71,10 +73,50 @@ promise = new PromiseN(function(resolve, reject) {
     setTimeout(function() {
         b = 2;
         resolve(7);
-        console.log('b');
-    }, 1000);
+        console.log('b', b);
+    }, 3000);
 });
 promise.then(function(value) {
     a = b+1;
-    console.log(value);
+    console.log('a:', a, '   ', 'b:', b, 'value', value);
 });
+
+//事件对象
+var EventMy = (function() {
+
+    //任务队列
+    var eventA = [];
+
+    var EventMy = function() {};
+
+    EventMy.prototype.on = function(type, handle) {
+        if (!eventA[type]) {
+            eventA[type] = [];
+        }
+        if ((typeof handle) == 'function') {
+            eventA[type].push(handle);
+        }
+    };
+
+    EventMy.prototype.trigger = function(type){
+        if (eventA[type]) {
+            eventA[type].forEach(function(item, idnex) {
+                item();
+            });
+        }
+    };
+
+    return EventMy;
+})();
+
+var myEvent = new EventMy();
+
+myEvent.on('show', function() {
+    console.log('hello, world!');
+});
+
+myEvent.on('show', function() {
+    console.log('heihei');
+});
+
+myEvent.trigger('show');

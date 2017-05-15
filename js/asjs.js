@@ -8,14 +8,14 @@ var getA = function() {
     setTimeout(function() {
         a = 1;
         console.log('a: ', a);
-    }, 10);
+    }, 20);
 };
 
 var getB = function() {
     setTimeout(function() {
-        b = 2;
-        console.log('b: ', b);
-    }, 20);
+        b = a + 2;
+        console.log('b: ', b, '     ', 'a: ', a);
+    }, 0);
 };
 
 var getC = function() {
@@ -23,7 +23,12 @@ var getC = function() {
     // getB();
     c = a + b + 1;
     console.log('c:',c, '    ', 'a:', a, '    ','b:', b);
-};
+};  
+
+// getA();
+// getB();
+// getC();
+
 
 // getC();
 
@@ -46,16 +51,16 @@ var getA1 = new Promise(function(resolve, reject) {
         a = 1;
         console.log('a: ', a);
         resolve(a);
-    }, 10);
+    }, 20);
 });
 
 getA1.then(function(value) {
     return new Promise(function(resolve, reject) {
         setTimeout(function() {
             b = 2;
-            console.log('b: ', b);
+            console.log('b: ', b, '     ', 'a: ', a);
             resolve(b);
-        }, 20);
+        }, 0);
     });
 })
 .then(function(value) {
@@ -72,17 +77,17 @@ getA1.then(function(value) {
 // getToC();
 
 
-var m,n;
-var f1 = function() {
-    for (var i = 0; i < 10000*10; i++) {
-        var n = 1000000*i;
-    }
-    m = n;
-};
-var f2 = function() {
-    n = m + 1;
-    console.log(n);
-};
+// var m,n;
+// var f1 = function() {
+//     for (var i = 0; i < 10000*10; i++) {
+//         var n = 1000000*i;
+//     }
+//     m = n;
+// };
+// var f2 = function() {
+//     n = m + 1;
+//     console.log(n);
+// };
 // f1();
 // f2();
 
@@ -97,29 +102,29 @@ var f2 = function() {
 
 //事件
 
-var EventMitter = (function() {
-    var el = document.getElementById('b1');
-    var ev;
-    var etype;
-    function EventMitter(type) {
-        etype = type;
-        ev = new Event(type);
-    }
+// var EventMitter = (function() {
+//     var el = document.getElementById('b1');
+//     var ev;
+//     var etype;
+//     function EventMitter(type) {
+//         etype = type;
+//         ev = new Event(type);
+//     }
 
-    EventMitter.prototype.on = function(fuc) {
-        el.addEventListener(etype, fuc);
-    };
+//     EventMitter.prototype.on = function(fuc) {
+//         el.addEventListener(etype, fuc);
+//     };
 
-    EventMitter.prototype.trigger = function(callback) {
-        el.dispatchEvent(ev)
-        callback();
-    };
+//     EventMitter.prototype.trigger = function(callback) {
+//         el.dispatchEvent(ev)
+//         callback();
+//     };
 
-    return EventMitter;
-})();
+//     return EventMitter;
+// })();
 
 
-var f = new EventMitter('cop');
-f.on(f1);
-f.trigger(f2);
-console.log('hello');
+// var f = new EventMitter('cop');
+// f.on(f1);
+// f.trigger(f2);
+// console.log('hello');
